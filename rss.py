@@ -4,6 +4,7 @@ import feedparser
 import urllib2
 import time
 import sys
+import os
 reload(sys)
 sys.setdefaultencoding('utf8')
  
@@ -48,26 +49,26 @@ urlList = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1.xml
 
 # Se obtiene la fecha de hoy
 #hoy = time.strftime("%a")+", "+time.strftime("%d")
+  #Obtiene la fecha de publicación de la noticia
+  #publicacion = post.published[0:7]
+  #Si la fecha corresponde a la de hoy
+  #if publicacion == hoy:
+
 i=1
 # Recorremos cada RSS
 for url in urlList:	
  rss = feedparser.parse(url)
  # Recorremos todos los post que aparecen en el RSS
  for post in rss.entries:
-  #print(post.title + ":" + post.link)
-  #Obtiene la fecha de publicación de la noticia
-  #publicacion = post.published[0:7]
-  #Si la fecha corresponde a la de hoy
-  #if publicacion == hoy:
-   #Obtener el link de la noticia
+  #Obtener el link de la noticia
   respuesta = urllib2.urlopen(post.link)
-   #Leer noticia desde la pagina de origen
+  #Leer noticia desde la pagina de origen
   contenidoWeb = respuesta.read()
-  titulo = post.title[0:15]
+  titulo = post.title[0:10]
+  publicacion = post.published[0:11]
   print(str(i)+": "+titulo)
   i=i+1
-   #Escribir la noticia
-  #f = open(titulo+".html", 'w')
-  #f.write(contenidoWeb)
-  #f.close
-
+  #Escribir la noticia
+  f = open(publicacion+"_"+titulo+".html", 'w')
+  f.write(contenidoWeb)
+  f.close
