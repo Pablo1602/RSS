@@ -3,6 +3,7 @@
 import feedparser
 import urllib2
 import os
+import time
 
 
 #https://www.cooperativa.cl/noticias/stat/rss/rss.html
@@ -57,7 +58,9 @@ soychilecl = ['http://feeds.feedburner.com/soychilecl-todas',
 ]
 
 actual = os.getcwd()
+fechayhora = time.strftime("%c")
 print(actual)
+print(fechayhora)
 
 if os.path.exists("cooperativa") == False: 
   print("Crear directorio cooperativa")
@@ -83,6 +86,12 @@ if os.path.exists("soychilecl") == False:
   print("Crear directorio soychilecl")
   os.mkdir('soychilecl')
 
+if os.path.isfile("estado.txt") == False:
+  print("Crear archivo estado")
+  f = open("estado.txt", 'w')
+  f.close
+
+i=0
 # Recorremos cada RSS para cooperativa
 print("RSS de cooperativa")
 for url in cooperativa:
@@ -97,11 +106,15 @@ for url in cooperativa:
       f = open(path, 'w')
       f.write(contenidoWeb)
       f.close
+      i=i+1
   except :
     print("# ERROR #")
 
+f = open("estado.txt", "a")
+f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de cooperativa\n")
+f.close
 
-
+i=0
 # Recorremos cada RSS para elmostrador
 print("RSS de elmostrador")
 for url in elmostrador:
@@ -116,11 +129,15 @@ for url in elmostrador:
       f = open(path, 'w')
       f.write(contenidoWeb)
       f.close
+      i=i+1
   except :
     print("# ERROR #")
 
+f = open("estado.txt", "a")
+f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de elmostrador\n")
+f.close
 
-
+i=0
 # Recorremos cada RSS para adnradio
 print("RSS de adnradio")
 for url in adnradio:
@@ -135,11 +152,15 @@ for url in adnradio:
       f = open(path, 'w')
       f.write(contenidoWeb)
       f.close
+      i=i+1
   except :
     print("# ERROR #")
 
+f = open("estado.txt", "a")
+f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de adnradio\n")
+f.close
 
-
+i=0
 # Recorremos cada RSS para publimetro
 print("RSS de publimetro")
 for url in publimetro:
@@ -154,10 +175,15 @@ for url in publimetro:
       f = open(path, 'w')
       f.write(contenidoWeb)
       f.close
+      i=i+1
   except :
     print("# ERROR #")
 
+f = open("estado.txt", "a")
+f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de publimetro\n")
+f.close
 
+i=0
 # Recorremos cada RSS para theclinic
 print("RSS de theclinic")
 for url in theclinic:
@@ -172,10 +198,15 @@ for url in theclinic:
       f = open(path, 'w')
       f.write(contenidoWeb)
       f.close
+      i=i+1
   except :
     print("# ERROR #")
 
+f = open("estado.txt", "a")
+f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de theclinic\n")
+f.close
 
+i=0
 # Recorremos cada RSS para soychilecl
 print("RSS de soychilecl")
 for url in soychilecl:
@@ -190,5 +221,10 @@ for url in soychilecl:
       f = open(path, 'w')
       f.write(contenidoWeb)
       f.close
+      i=i+1
   except :
     print("# ERROR #")
+
+f = open("estado.txt", "a")
+f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de soychilecl\n")
+f.close
