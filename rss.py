@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 import feedparser
 import urllib2
-import time
-import sys
 import os
-reload(sys)
-sys.setdefaultencoding('utf8')
+
+
+#https://www.cooperativa.cl/noticias/stat/rss/rss.html
+#https://www.elmostrador.cl/sindicacion/
  
-urlList = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1.xml',
+cooperativa = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_5___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_1___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_6___1.xml',
@@ -18,7 +18,9 @@ urlList = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1.xml
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_3___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_7___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_8___1.xml',
-'https://www.elmostrador.cl/destacado/feed/',
+]
+
+elmostrador = ['https://www.elmostrador.cl/destacado/feed/',
 'https://www.elmostrador.cl/dia/feed/',
 'https://www.elmostrador.cl/noticias/pais/feed/',
 'https://www.elmostrador.cl/noticias/mundo/feed/',
@@ -28,13 +30,21 @@ urlList = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1.xml
 'https://www.elmostrador.cl/sin-editar/feed/',
 'https://www.elmostrador.cl/kiosko/feed/',
 'https://www.elmostrador.cl/seleccion/feed/',
-'https://www.elmostrador.cl/multimedia/feed/',
-'http://www.adnradio.cl/feed.aspx?id=PROG_555474',
+'https://www.elmostrador.cl/multimedia/feed/'
+]
+
+adnradio = ['http://www.adnradio.cl/feed.aspx?id=PROG_555474',
 'http://www.adnradio.cl/feed.aspx?id=PROG_555477',
-'http://www.adnradio.cl/feed.aspx?id=PROG_1853535',
-'https://www.publimetro.cl/cl//newtenberg/index_rss.rss',
-'http://www.theclinic.cl/feed/',
-'http://feeds.feedburner.com/soychilecl-todas',
+'http://www.adnradio.cl/feed.aspx?id=PROG_1853535'
+]
+
+publimetro = ['https://www.publimetro.cl/cl//newtenberg/index_rss.rss'
+]
+
+theclinic = ['http://www.theclinic.cl/feed/'
+]
+
+soychilecl = ['http://feeds.feedburner.com/soychilecl-todas',
 'http://feeds.feedburner.com/soychilecl-cultura',
 'http://feeds.feedburner.com/soychilecl-deportes',
 'http://feeds.feedburner.com/soychilecl-economia-y-negocios',
@@ -45,30 +55,140 @@ urlList = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1.xml
 'http://feeds.feedburner.com/soychilecl-sociedad',
 'http://feeds.feedburner.com/soychilecl-tecnologia'
 ]
- 
 
-# Se obtiene la fecha de hoy
-#hoy = time.strftime("%a")+", "+time.strftime("%d")
-  #Obtiene la fecha de publicación de la noticia
-  #publicacion = post.published[0:7]
-  #Si la fecha corresponde a la de hoy
-  #if publicacion == hoy:
+actual = os.getcwd()
+print(actual)
 
-i=1
-# Recorremos cada RSS
-for url in urlList:	
+if os.path.exists("cooperativa") == False: 
+  print("Crear directorio cooperativa")
+  os.mkdir('cooperativa')
+
+if os.path.exists("elmostrador") == False: 
+  print("Crear directorio elmostrador")
+  os.mkdir('elmostrador')
+
+if os.path.exists("adnradio") == False: 
+  print("Crear directorio adnradio")
+  os.mkdir('adnradio')
+
+if os.path.exists("publimetro") == False: 
+  print("Crear directorio publimetro")
+  os.mkdir('publimetro')
+
+if os.path.exists("theclinic") == False: 
+  print("Crear directorio theclinic")
+  os.mkdir('theclinic')
+
+if os.path.exists("soychilecl") == False: 
+  print("Crear directorio soychilecl")
+  os.mkdir('soychilecl')
+
+# Recorremos cada RSS para cooperativa
+print("RSS de cooperativa")
+for url in cooperativa:
  rss = feedparser.parse(url)
- # Recorremos todos los post que aparecen en el RSS
  for post in rss.entries:
-  #Obtener el link de la noticia
-  respuesta = urllib2.urlopen(post.link)
-  #Leer noticia desde la pagina de origen
-  contenidoWeb = respuesta.read()
-  titulo = post.title[0:10]
-  publicacion = post.published[0:11]
-  print(str(i)+": "+titulo)
-  i=i+1
-  #Escribir la noticia
-  f = open(publicacion+"_"+titulo+".html", 'w')
-  f.write(contenidoWeb)
-  f.close
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/cooperativa/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      respuesta = urllib2.urlopen(post.link)
+      contenidoWeb = respuesta.read()
+      f = open(path, 'w')
+      f.write(contenidoWeb)
+      f.close
+  except :
+    print("# ERROR #")
+
+
+
+# Recorremos cada RSS para elmostrador
+print("RSS de elmostrador")
+for url in elmostrador:
+ rss = feedparser.parse(url)
+ for post in rss.entries:
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/elmostrador/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      respuesta = urllib2.urlopen(post.link)
+      contenidoWeb = respuesta.read()
+      f = open(path, 'w')
+      f.write(contenidoWeb)
+      f.close
+  except :
+    print("# ERROR #")
+
+
+
+# Recorremos cada RSS para adnradio
+print("RSS de adnradio")
+for url in adnradio:
+ rss = feedparser.parse(url)
+ for post in rss.entries:
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/adnradio/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      respuesta = urllib2.urlopen(post.link)
+      contenidoWeb = respuesta.read()
+      f = open(path, 'w')
+      f.write(contenidoWeb)
+      f.close
+  except :
+    print("# ERROR #")
+
+
+
+# Recorremos cada RSS para publimetro
+print("RSS de publimetro")
+for url in publimetro:
+ rss = feedparser.parse(url)
+ for post in rss.entries:
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/publimetro/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      respuesta = urllib2.urlopen(post.link)
+      contenidoWeb = respuesta.read()
+      f = open(path, 'w')
+      f.write(contenidoWeb)
+      f.close
+  except :
+    print("# ERROR #")
+
+
+# Recorremos cada RSS para theclinic
+print("RSS de theclinic")
+for url in theclinic:
+ rss = feedparser.parse(url)
+ for post in rss.entries:
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/theclinic/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      respuesta = urllib2.urlopen(post.link)
+      contenidoWeb = respuesta.read()
+      f = open(path, 'w')
+      f.write(contenidoWeb)
+      f.close
+  except :
+    print("# ERROR #")
+
+
+# Recorremos cada RSS para soychilecl
+print("RSS de soychilecl")
+for url in soychilecl:
+ rss = feedparser.parse(url)
+ for post in rss.entries:
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/soychilecl/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      respuesta = urllib2.urlopen(post.link)
+      contenidoWeb = respuesta.read()
+      f = open(path, 'w')
+      f.write(contenidoWeb)
+      f.close
+  except :
+    print("# ERROR #")
