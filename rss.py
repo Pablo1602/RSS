@@ -98,7 +98,7 @@ for url in cooperativa:
  for post in rss.entries:
   try:
     titulo = post.title[0:100]
-    path = actual+"/cooperativa/"+titulo+".html"
+    path = actual+"/cooperativa/"+titulo+".txt"
     if os.path.isfile(path) == False:
       respuesta = urllib2.urlopen(post.link)
       contenidoWeb = respuesta.read()
@@ -121,7 +121,7 @@ for url in elmostrador:
  for post in rss.entries:
   try:
     titulo = post.title[0:100]
-    path = actual+"/elmostrador/"+titulo+".html"
+    path = actual+"/elmostrador/"+titulo+".txt"
     if os.path.isfile(path) == False:
       respuesta = urllib2.urlopen(post.link)
       contenidoWeb = respuesta.read()
@@ -144,7 +144,7 @@ for url in adnradio:
  for post in rss.entries:
   try:
     titulo = post.title[0:100]
-    path = actual+"/adnradio/"+titulo+".html"
+    path = actual+"/adnradio/"+titulo+".txt"
     if os.path.isfile(path) == False:
       respuesta = urllib2.urlopen(post.link)
       contenidoWeb = respuesta.read()
@@ -168,7 +168,7 @@ for url in theclinic:
  for post in rss.entries:
   try:
     titulo = post.title[0:100]
-    path = actual+"/theclinic/"+titulo+".html"
+    path = actual+"/theclinic/"+titulo+".txt"
     if os.path.isfile(path) == False:
       respuesta = urllib2.urlopen(post.link)
       contenidoWeb = respuesta.read()
