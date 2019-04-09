@@ -4,6 +4,7 @@ import feedparser
 import urllib2
 import os
 import time
+from unidecode import unidecode
 
 
 #https://www.cooperativa.cl/noticias/stat/rss/rss.html
@@ -36,11 +37,13 @@ elmostrador = ['https://www.elmostrador.cl/destacado/feed/',
 
 adnradio = ['http://www.adnradio.cl/feed.aspx?id=PROG_555474',
 'http://www.adnradio.cl/feed.aspx?id=PROG_555477',
-'http://www.adnradio.cl/feed.aspx?id=PROG_1853535'
+'http://www.adnradio.cl/feed.aspx?id=PROG_1853535',
+'http://www.adnradio.cl/feed.aspx?id=PROG_2047349',
+'http://www.adnradio.cl/feed.aspx?id=PROG_1909940',
+'http://www.adnradio.cl/feed.aspx?id=PROG_1302638',
+'http://www.adnradio.cl/feed.aspx?id=PROG_555475'
 ]
 
-publimetro = ['https://www.publimetro.cl/cl//newtenberg/index_rss.rss'
-]
 
 theclinic = ['http://www.theclinic.cl/feed/'
 ]
@@ -74,10 +77,6 @@ if os.path.exists("adnradio") == False:
   print("Crear directorio adnradio")
   os.mkdir('adnradio')
 
-if os.path.exists("publimetro") == False: 
-  print("Crear directorio publimetro")
-  os.mkdir('publimetro')
-
 if os.path.exists("theclinic") == False: 
   print("Crear directorio theclinic")
   os.mkdir('theclinic')
@@ -109,10 +108,10 @@ for url in cooperativa:
       i=i+1
   except :
     print("# ERROR #")
-
-f = open("estado.txt", "a")
-f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de cooperativa\n")
-f.close
+if i != 0:
+  f = open("estado.txt", "a")
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de cooperativa\n")
+  f.close
 
 i=0
 # Recorremos cada RSS para elmostrador
@@ -132,10 +131,10 @@ for url in elmostrador:
       i=i+1
   except :
     print("# ERROR #")
-
-f = open("estado.txt", "a")
-f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de elmostrador\n")
-f.close
+if i != 0:
+  f = open("estado.txt", "a")
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de elmostrador\n")
+  f.close
 
 i=0
 # Recorremos cada RSS para adnradio
@@ -155,33 +154,11 @@ for url in adnradio:
       i=i+1
   except :
     print("# ERROR #")
+if i != 0:
+  f = open("estado.txt", "a")
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de adnradio\n")
+  f.close
 
-f = open("estado.txt", "a")
-f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de adnradio\n")
-f.close
-
-i=0
-# Recorremos cada RSS para publimetro
-print("RSS de publimetro")
-for url in publimetro:
- rss = feedparser.parse(url)
- for post in rss.entries:
-  try:
-    titulo = post.title[0:100]
-    path = actual+"/publimetro/"+titulo+".html"
-    if os.path.isfile(path) == False:
-      respuesta = urllib2.urlopen(post.link)
-      contenidoWeb = respuesta.read()
-      f = open(path, 'w')
-      f.write(contenidoWeb)
-      f.close
-      i=i+1
-  except :
-    print("# ERROR #")
-
-f = open("estado.txt", "a")
-f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de publimetro\n")
-f.close
 
 i=0
 # Recorremos cada RSS para theclinic
@@ -202,9 +179,10 @@ for url in theclinic:
   except :
     print("# ERROR #")
 
-f = open("estado.txt", "a")
-f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de theclinic\n")
-f.close
+if i != 0:
+  f = open("estado.txt", "a")
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de theclinic\n")
+  f.close
 
 i=0
 # Recorremos cada RSS para soychilecl
@@ -212,19 +190,26 @@ print("RSS de soychilecl")
 for url in soychilecl:
  rss = feedparser.parse(url)
  for post in rss.entries:
-  try:
-    titulo = post.title[0:100]
-    path = actual+"/soychilecl/"+titulo+".html"
-    if os.path.isfile(path) == False:
-      respuesta = urllib2.urlopen(post.link)
-      contenidoWeb = respuesta.read()
-      f = open(path, 'w')
-      f.write(contenidoWeb)
-      f.close
-      i=i+1
-  except :
-    print("# ERROR #")
+  titulo = post.title[0:100]
+  path = actual+"/soychilecl/"+titulo+".txt"
+  if os.path.isfile(path) == False:
+    f = open(path, 'w')
+    text = unidecode(post.summary)
+    for line in text:
+      for word in line:
+        if word == "<":
+            basura = 1
+        if word == ">":
+            basura = 0
+            continue
+        if basura == 0:
+            f.write(word)
+    f.close
+    i=i+1
 
-f = open("estado.txt", "a")
-f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de soychilecl\n")
-f.close
+
+if i != 0:
+  f = open("estado.txt", "a")
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de soychilecl\n")
+  f.close
+
