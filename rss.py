@@ -41,7 +41,8 @@ adnradio = ['http://www.adnradio.cl/feed.aspx?id=PROG_555474',
 'http://www.adnradio.cl/feed.aspx?id=PROG_2047349',
 'http://www.adnradio.cl/feed.aspx?id=PROG_1909940',
 'http://www.adnradio.cl/feed.aspx?id=PROG_1302638',
-'http://www.adnradio.cl/feed.aspx?id=PROG_555475'
+'http://www.adnradio.cl/feed.aspx?id=PROG_555475',
+'http://www.adnradio.cl/feed.aspx?'
 ]
 
 
@@ -90,101 +91,102 @@ if os.path.isfile("estado.txt") == False:
   f = open("estado.txt", 'w')
   f.close
 
-i=0
-# Recorremos cada RSS para cooperativa
-print("RSS de cooperativa")
-for url in cooperativa:
- rss = feedparser.parse(url)
- for post in rss.entries:
-  try:
+i=0 
+# Recorremos cada RSS para cooperativa 
+print("RSS de cooperativa") 
+for url in cooperativa: 
+ rss = feedparser.parse(url) 
+ for post in rss.entries: 
+  try: 
     titulo = post.title[0:100]
-    path = actual+"/cooperativa/"+titulo+".txt"
-    if os.path.isfile(path) == False:
-      respuesta = urllib2.urlopen(post.link)
-      contenidoWeb = respuesta.read()
-      f = open(path, 'w')
-      f.write(contenidoWeb)
-      f.close
-      i=i+1
-  except :
-    print("# ERROR #")
-if i != 0:
-  f = open("estado.txt", "a")
-  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de cooperativa\n")
+    path = actual+"/cooperativa/"+titulo+".txt" 
+    if os.path.isfile(path) == False: 
+      respuesta = urllib2.urlopen(post.link) 
+      contenidoWeb = respuesta.read() 
+      f = open(path, 'w') 
+      f.write(contenidoWeb) 
+      f.close 
+      i=i+1 
+  except : 
+    print("# ERROR #") 
+if i != 0: 
+  f = open("estado.txt", "a") 
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de cooperativa\n") 
+  f.close 
+ 
+i=0 
+# Recorremos cada RSS para elmostrador 
+print("RSS de elmostrador") 
+for url in elmostrador: 
+ rss = feedparser.parse(url) 
+ for post in rss.entries: 
+  try: 
+    titulo = post.title[0:100] 
+    path = actual+"/elmostrador/"+titulo+".txt" 
+    if os.path.isfile(path) == False: 
+      respuesta = urllib2.urlopen(post.link) 
+      contenidoWeb = respuesta.read() 
+      f = open(path, 'w') 
+      f.write(contenidoWeb) 
+      f.close 
+      i=i+1 
+  except : 
+    print("# ERROR #") 
+if i != 0: 
+  f = open("estado.txt", "a") 
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de elmostrador\n") 
+  f.close 
+ 
+i=0 
+# Recorremos cada RSS para adnradio 
+print("RSS de adnradio") 
+for url in adnradio: 
+ rss = feedparser.parse(url) 
+ for post in rss.entries: 
+  try: 
+    titulo = post.title[0:100] 
+    path = actual+"/adnradio/"+titulo+".txt" 
+    if os.path.isfile(path) == False: 
+      respuesta = urllib2.urlopen(post.link) 
+      contenidoWeb = respuesta.read() 
+      f = open(path, 'w') 
+      f.write(contenidoWeb) 
+      f.close 
+      i=i+1 
+  except : 
+    print("# ERROR #") 
+if i != 0: 
+  f = open("estado.txt", "a") 
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de adnradio\n") 
+  f.close 
+ 
+ 
+i=0 
+# Recorremos cada RSS para theclinic 
+print("RSS de theclinic") 
+for url in theclinic: 
+ rss = feedparser.parse(url) 
+ for post in rss.entries: 
+  try: 
+    titulo = post.title[0:100] 
+    path = actual+"/theclinic/"+titulo+".txt" 
+    if os.path.isfile(path) == False: 
+      respuesta = urllib2.urlopen(post.link) 
+      contenidoWeb = respuesta.read() 
+      f = open(path, 'w') 
+      f.write(contenidoWeb) 
+      f.close 
+      i=i+1 
+  except : 
+    print("# ERROR #") 
+ 
+if i != 0: 
+  f = open("estado.txt", "a") 
+  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de theclinic\n") 
   f.close
 
 i=0
-# Recorremos cada RSS para elmostrador
-print("RSS de elmostrador")
-for url in elmostrador:
- rss = feedparser.parse(url)
- for post in rss.entries:
-  try:
-    titulo = post.title[0:100]
-    path = actual+"/elmostrador/"+titulo+".txt"
-    if os.path.isfile(path) == False:
-      respuesta = urllib2.urlopen(post.link)
-      contenidoWeb = respuesta.read()
-      f = open(path, 'w')
-      f.write(contenidoWeb)
-      f.close
-      i=i+1
-  except :
-    print("# ERROR #")
-if i != 0:
-  f = open("estado.txt", "a")
-  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de elmostrador\n")
-  f.close
-
-i=0
-# Recorremos cada RSS para adnradio
-print("RSS de adnradio")
-for url in adnradio:
- rss = feedparser.parse(url)
- for post in rss.entries:
-  try:
-    titulo = post.title[0:100]
-    path = actual+"/adnradio/"+titulo+".txt"
-    if os.path.isfile(path) == False:
-      respuesta = urllib2.urlopen(post.link)
-      contenidoWeb = respuesta.read()
-      f = open(path, 'w')
-      f.write(contenidoWeb)
-      f.close
-      i=i+1
-  except :
-    print("# ERROR #")
-if i != 0:
-  f = open("estado.txt", "a")
-  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de adnradio\n")
-  f.close
-
-
-i=0
-# Recorremos cada RSS para theclinic
-print("RSS de theclinic")
-for url in theclinic:
- rss = feedparser.parse(url)
- for post in rss.entries:
-  try:
-    titulo = post.title[0:100]
-    path = actual+"/theclinic/"+titulo+".txt"
-    if os.path.isfile(path) == False:
-      respuesta = urllib2.urlopen(post.link)
-      contenidoWeb = respuesta.read()
-      f = open(path, 'w')
-      f.write(contenidoWeb)
-      f.close
-      i=i+1
-  except :
-    print("# ERROR #")
-
-if i != 0:
-  f = open("estado.txt", "a")
-  f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de theclinic\n")
-  f.close
-
-i=0
+basura=0
 # Recorremos cada RSS para soychilecl
 print("RSS de soychilecl")
 for url in soychilecl:
@@ -206,7 +208,6 @@ for url in soychilecl:
             f.write(word)
     f.close
     i=i+1
-
 
 if i != 0:
   f = open("estado.txt", "a")
