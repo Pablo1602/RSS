@@ -99,7 +99,7 @@ for url in cooperativa:
  for post in rss.entries: 
   try: 
     titulo = post.title[0:100]
-    path = actual+"/cooperativa/"+titulo+".txt" 
+    path = actual+"/cooperativa/"+titulo+".html " 
     if os.path.isfile(path) == False: 
       respuesta = urllib2.urlopen(post.link) 
       contenidoWeb = respuesta.read() 
@@ -122,7 +122,7 @@ for url in elmostrador:
  for post in rss.entries: 
   try: 
     titulo = post.title[0:100] 
-    path = actual+"/elmostrador/"+titulo+".txt" 
+    path = actual+"/elmostrador/"+titulo+".html" 
     if os.path.isfile(path) == False: 
       respuesta = urllib2.urlopen(post.link) 
       contenidoWeb = respuesta.read() 
@@ -145,7 +145,7 @@ for url in adnradio:
  for post in rss.entries: 
   try: 
     titulo = post.title[0:100] 
-    path = actual+"/adnradio/"+titulo+".txt" 
+    path = actual+"/adnradio/"+titulo+".html" 
     if os.path.isfile(path) == False: 
       respuesta = urllib2.urlopen(post.link) 
       contenidoWeb = respuesta.read() 
@@ -169,7 +169,7 @@ for url in theclinic:
  for post in rss.entries: 
   try: 
     titulo = post.title[0:100] 
-    path = actual+"/theclinic/"+titulo+".txt" 
+    path = actual+"/theclinic/"+titulo+".html" 
     if os.path.isfile(path) == False: 
       respuesta = urllib2.urlopen(post.link) 
       contenidoWeb = respuesta.read() 
@@ -193,7 +193,7 @@ for url in soychilecl:
  rss = feedparser.parse(url)
  for post in rss.entries:
   titulo = post.title[0:100]
-  path = actual+"/soychilecl/"+titulo+".txt"
+  path = actual+"/soychilecl/"+titulo+".html"
   if os.path.isfile(path) == False:
     f = open(path, 'w')
     text = unidecode(post.summary)
