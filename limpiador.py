@@ -25,6 +25,10 @@ if os.path.exists("Ntheclinic") == False:
   print("Crear directorio Ltheclinic")
   os.mkdir('Ntheclinic')
 
+if os.path.exists("Nadnradio") == False: 
+  print("Crear directorio Nadnradio")
+  os.mkdir('Nadnradio')
+
 if os.path.exists("Telmostrador") == False: 
   print("Crear directorio Telmostrador")
   os.mkdir('Telmostrador')
@@ -36,6 +40,10 @@ if os.path.exists("Tcooperativa") == False:
 if os.path.exists("Ttheclinic") == False: 
   print("Crear directorio Ttheclinic")
   os.mkdir('Ttheclinic')
+
+if os.path.exists("Tadnradio") == False: 
+  print("Crear directorio Tadnradio")
+  os.mkdir('Tadnradio')
 
 cuerpo = 0
 topicos = 0
@@ -91,7 +99,7 @@ for arch in listdir(path):
             f.close
             n.close
     except:
-        print("# ERROR #")  
+        print("# ERROR en cooperativa#")  
 
 cuerpo = 0
 topicos = 0
@@ -145,7 +153,7 @@ for arch in listdir(path):
             f.close
             n.close
     except:
-        print("# ERROR #")  
+        print("# ERROR en theclinic#")  
 
 cuerpo = 0
 topicos = 0
@@ -200,7 +208,54 @@ for arch in listdir(path):
             f.close
             n.close
     except:
-        print("# ERROR #")  
+        print("# ERROR en el mostrador#")  
 
- 
+
+cuerpo = 0
+topicos = 0
+path = actual+"/adnradio"
+noticia = actual+"/Nadnradio"
+topico = actual+"/Tadnradio"
+for arch in listdir(path):
+    ruta = join(path, arch)
+    try:
+        if isfile(ruta):
+            f = open (ruta, 'r')
+            nruta = join(noticia, arch)
+            truta = join(topico, arch)
+            n = open (nruta, 'w')
+            t = open (truta, 'w')
+            contador = 0
+            for line in f:
+                contador = contador + 1
+                if contador == 5:
+                  for word in line:
+                    n.write(word) #Titulo
+                if line[16:24] == "keywords":
+                  for word in line:
+                    if word == "<":
+                        basura = 1
+                    if word == ">":
+                        basura = 0
+                        continue
+                    if basura == 0:
+                        t.write(word)
+                if line[27:44] == "<!--Desarrollo-->":
+                    cuerpo = 1
+                    continue
+                if line[27:48] == "<!--Fin Desarrollo-->":
+                    cuerpo = 0
+                if cuerpo == 1:
+                    for word in line:
+                        if word == "<":
+                            basura = 1
+                        if word == ">":
+                            basura = 0
+                            continue
+                        if basura == 0:
+                            n.write(word)
+            f.close
+            n.close
+    except:
+        print("# ERROR en adn radio#") 
 

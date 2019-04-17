@@ -19,6 +19,21 @@ cooperativa = ['https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16___1
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_3___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_7___1.xml',
 'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_8___1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_6_74__1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_6_83__1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_16_256__1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_1_37__1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_3_156__1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_3_163__1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_70_935_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_129_963_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_73_985_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_135_1012_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_76_1023_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_142_1069_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_143_1078_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_148_1158_1.xml',
+'https://www.cooperativa.cl/noticias/site/tax/port/all/rss_2_152_1226_1.xml'
 ]
 
 elmostrador = ['https://www.elmostrador.cl/destacado/feed/',
