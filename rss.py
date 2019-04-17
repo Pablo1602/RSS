@@ -6,7 +6,6 @@ import os
 import time
 from unidecode import unidecode
 
-
 #https://www.cooperativa.cl/noticias/stat/rss/rss.html
 #https://www.elmostrador.cl/sindicacion/
  
