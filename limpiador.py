@@ -13,73 +13,85 @@ fechayhora = time.strftime("%c")
 print(actual)
 print(fechayhora)
 
-if os.path.exists("Nelmostrador") == False: 
-  print("Crear directorio Lelmostrador")
-  os.mkdir('Nelmostrador')
-
-if os.path.exists("Ncooperativa") == False: 
-  print("Crear directorio Lcooperativa")
-  os.mkdir('Ncooperativa')
-
-if os.path.exists("Ntheclinic") == False: 
-  print("Crear directorio Ltheclinic")
-  os.mkdir('Ntheclinic')
-
-if os.path.exists("Nadnradio") == False: 
-  print("Crear directorio Nadnradio")
-  os.mkdir('Nadnradio')
-
-if os.path.exists("Telmostrador") == False: 
-  print("Crear directorio Telmostrador")
-  os.mkdir('Telmostrador')
-
-if os.path.exists("Tcooperativa") == False: 
-  print("Crear directorio Tcooperativa")
-  os.mkdir('Tcooperativa')
-
-if os.path.exists("Ttheclinic") == False: 
-  print("Crear directorio Ttheclinic")
-  os.mkdir('Ttheclinic')
-
-if os.path.exists("Tadnradio") == False: 
-  print("Crear directorio Tadnradio")
-  os.mkdir('Tadnradio')
-
 cuerpo = 0
 topicos = 0
 basura = 0
+contador = 0
+
+def sacarEntre(word):
+    global basura, script
+    if basura == 1:
+        if word == "s":
+            script = 1
+            return 1
+    if word == "/":
+        script = 0
+    if word == "<":
+        basura = 1
+    if word == ">":
+        basura = 0
+        return 1
+    return 0
+
+def sacarSaltoTab(word):
+    if word == '\n' or word == '\t':
+        return 1
+    return 0
+
+def sacarEspacioDoble(word):
+    global espacio
+    if espacio == 1:
+        if word == ' ':
+            espacio = 0
+            return 1
+        else:  
+            espacio = 0
+    if word == ' ':
+        espacio = 1
+    return 0
+
+def reset():
+    global cuerpo, topicos, basura, contador, espacio
+    cuerpo = 0
+    topicos = 0
+    basura = 0
+    contador = 0
+    espacio = 0
+
 path = actual+"/cooperativa"
-noticia = actual+"/Ncooperativa"
-topico = actual+"/Tcooperativa"
+n = open ("Ncooperativa.txt", 'w')
+t = open ("Tcooperativa.txt", 'w')
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
         if isfile(ruta):
             f = open (ruta, 'r')
-            nruta = join(noticia, arch)
-            truta = join(topico, arch)
-            n = open (nruta, 'w')
-            t = open (truta, 'w')
+            reset()
             for line in f:
+                espacio = 0
                 if line[0:7] == "<title>":
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
                     if basura == 0:
+                        if sacarSaltoTab(word):
+                            n.write(' ')
+                            continue
+                        if sacarEspacioDoble(word):
+                            continue
                         n.write(word)
                 if line[13:27] == "rotulo-topicos":
                   topicos = 1
                 if topicos == 1:
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
                     if basura == 0:
+                        if sacarSaltoTab(word):
+                            t.write(' ')
+                            continue
+                        if sacarEspacioDoble(word):
+                            continue
                         t.write(word)
                 if line[1:7] == "</div>":
                   topicos = 0
@@ -87,53 +99,58 @@ for arch in listdir(path):
                   cuerpo = 1
                 if  cuerpo == 1:
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
-                    if basura == 0:
+                    if basura == 0 and script == 0:
+                        if sacarSaltoTab(word):
+                            n.write(' ')
+                            continue
+                        if sacarEspacioDoble(word):
+                            continue
                         n.write(word)
                 if line[10:16] == "prompt":
                   cuerpo = 0
             f.close
-            n.close
+            n.write('\n')
+            t.write('\n')
     except:
-        print("# ERROR en cooperativa#")  
+        print("# ERROR en cooperativa#") 
+n.close
 
-cuerpo = 0
-topicos = 0
+n = open ("Ntheclinic.txt", 'w')
+t = open ("Ttheclinic.txt", 'w')
+titulo = []
 path = actual+"/theclinic"
-noticia = actual+"/Ntheclinic"
-topico = actual+"/Ttheclinic"
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
         if isfile(ruta):
+            reset()
+            basura = 1
             f = open (ruta, 'r')
-            nruta = join(noticia, arch)
-            truta = join(topico, arch)
-            n = open (nruta, 'w')
-            t = open (truta, 'w')
-            contador = 0
             for line in f:
+                espacio = 0
                 if line[61:68] == "<title>":
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
                     if basura == 0:
+                        if sacarSaltoTab(word):
+                            n.write(' ')
+                            continue
+                        if sacarEspacioDoble(word):
+                            continue
                         n.write(word)
                 if line[10:21] == "article:tag":
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
                     if basura == 0:
+                        if sacarSaltoTab(word):
+                            t.write(' ')
+                            continue
+                        if sacarEspacioDoble(word):
+                            continue
                         t.write(word)
                 if line[17:44] == "</span></span></a></div><p>":
                     cuerpo = 1
@@ -141,104 +158,107 @@ for arch in listdir(path):
                   contador = contador + 1
                   if contador == 1 or contador > 14:
                       for word in line:
-                        if word == "<":
-                            basura = 1
-                        if word == ">":
-                            basura = 0
+                        if sacarEntre(word):
                             continue
-                        if basura == 0:
+                        if basura == 0 and script == 0:
+                            if sacarSaltoTab(word):
+                                n.write(' ')
+                                continue
+                            if sacarEspacioDoble(word):
+                                continue
                             n.write(word)
-                if line[15:29] == "><strong><span":
+                if line[6:28] == "http://20.theclinic.cl":
                     cuerpo = 0
             f.close
-            n.close
+            n.write('\n')
+            t.write('\n')    
     except:
         print("# ERROR en theclinic#")  
+n.close
 
-cuerpo = 0
-topicos = 0
+n = open ("Nelmostrador.txt", 'w')
+t = open ("Telmostrador.txt", 'w')
 path = actual+"/elmostrador"
-noticia = actual+"/Nelmostrador"
-topico = actual+"/Telmostrador"
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
         if isfile(ruta):
             f = open (ruta, 'r')
-            nruta = join(noticia, arch)
-            truta = join(topico, arch)
-            n = open (nruta, 'w')
-            t = open (truta, 'w')
+            reset()
             for line in f:
                 if line[16:23] == "<title>":
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
                     if basura == 0:
+                        if sacarSaltoTab(word):
+                            n.write(' ')
+                            continue
                         n.write(word)
                 if line[132:145] == "tags-noticias":
                     topicos = 1
                 if topicos == 1:
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
-                    if basura == 0:
+                    if basura == 0 and script == 0:
+                        if sacarSaltoTab(word):
+                            t.write(' ')
+                            continue
                         t.write(word)
                 if line[52:83] == "</div> <!-- /.tags-noticias -->":
                     topicos = 0
                 if line[102:116] == "cuerpo-noticia":
-                    cuerpo = 1
+                    cuerpo = 4
+                if cuerpo > 1:
+                    cuerpo = cuerpo - 1
+                    continue
                 if  cuerpo == 1:
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
-                    if basura == 0:
+                    if basura == 0 and script == 0:
+                        if sacarSaltoTab(word):
+                            n.write(' ')
+                            continue
                         n.write(word)
                 if line[52:62] == "<!--BBC-->":
                     cuerpo = 0
             f.close
-            n.close
+            n.write('\n')
+            t.write('\n')    
     except:
         print("# ERROR en el mostrador#")  
+n.close
 
-
-cuerpo = 0
-topicos = 0
+n = open ("Nadnradio.txt", 'w')
+t = open ("Tadnradio.txt", 'w')
 path = actual+"/adnradio"
-noticia = actual+"/Nadnradio"
-topico = actual+"/Tadnradio"
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
         if isfile(ruta):
             f = open (ruta, 'r')
-            nruta = join(noticia, arch)
-            truta = join(topico, arch)
-            n = open (nruta, 'w')
-            t = open (truta, 'w')
-            contador = 0
+            reset()
             for line in f:
                 contador = contador + 1
                 if contador == 5:
                   for word in line:
+                    if sacarEntre(word):
+                        continue
+                    if basura == 0:
+                        if sacarSaltoTab(word):
+                            n.write(' ')
+                            continue
                     n.write(word) #Titulo
                 if line[16:24] == "keywords":
                   for word in line:
-                    if word == "<":
-                        basura = 1
-                    if word == ">":
-                        basura = 0
+                    if sacarEntre(word):
                         continue
                     if basura == 0:
+                        if sacarSaltoTab(word):
+                            t.write(' ')
+                            continue
                         t.write(word)
                 if line[27:44] == "<!--Desarrollo-->":
                     cuerpo = 1
@@ -247,15 +267,17 @@ for arch in listdir(path):
                     cuerpo = 0
                 if cuerpo == 1:
                     for word in line:
-                        if word == "<":
-                            basura = 1
-                        if word == ">":
-                            basura = 0
+                        if sacarEntre(word):
                             continue
                         if basura == 0:
+                            if sacarSaltoTab(word):
+                                n.write(' ')
+                                continue
                             n.write(word)
             f.close
-            n.close
+            n.write('\n')
+            t.write('\n')
     except:
         print("# ERROR en adn radio#") 
+n.close
 
