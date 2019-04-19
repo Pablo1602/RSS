@@ -41,13 +41,15 @@ def sacarSaltoTab(word):
 def sacarEspacioDoble(word):
     global espacio
     if espacio == 1:
-        if word == ' ':
+        if word == " ":
             espacio = 0
             return 1
         else:  
             espacio = 0
-    if word == ' ':
+    if word == " ":
         espacio = 1
+    if word != " ":
+        espacio = 0
     return 0
 
 def reset():
@@ -69,7 +71,9 @@ for arch in listdir(path):
             reset()
             for line in f:
                 espacio = 0
-                if line[0:7] == "<title>":
+                if line[0:7] == "<title>": #Comienzo titulo
+                  if line[7:14] == "[Video]" or line[7:14] == "[Audio]":
+                    break #Saltar video o audio
                   for word in line:
                     if sacarEntre(word):
                         continue
@@ -80,7 +84,8 @@ for arch in listdir(path):
                         if sacarEspacioDoble(word):
                             continue
                         n.write(word)
-                if line[13:27] == "rotulo-topicos":
+                  n.write('| ') #Fin de titulo               
+                if line[13:27] == "rotulo-topicos" or line[9:17] == "keywords": #Comienzo topico
                   topicos = 1
                 if topicos == 1:
                   for word in line:
@@ -93,9 +98,9 @@ for arch in listdir(path):
                         if sacarEspacioDoble(word):
                             continue
                         t.write(word)
-                if line[1:7] == "</div>":
+                if line[1:7] == "</div>" or line[8:10] == "],": #Fin topico
                   topicos = 0
-                if line[12:27] == "cuerpo-articulo":
+                if line[12:27] == "cuerpo-articulo" or line[9:20] == "articleBody": #Comienzo cuerpo
                   cuerpo = 1
                 if  cuerpo == 1:
                   for word in line:
@@ -108,13 +113,13 @@ for arch in listdir(path):
                         if sacarEspacioDoble(word):
                             continue
                         n.write(word)
-                if line[10:16] == "prompt":
+                if line[10:16] == "prompt" or line[9:20] == "articleBody": #Fin cuerpo
                   cuerpo = 0
             f.close
             n.write('\n')
             t.write('\n')
     except:
-        print("# ERROR en cooperativa#") 
+        print("#ERROR en cooperativa# "+ruta) 
 n.close
 
 n = open ("Ntheclinic.txt", 'w')
@@ -130,7 +135,7 @@ for arch in listdir(path):
             f = open (ruta, 'r')
             for line in f:
                 espacio = 0
-                if line[61:68] == "<title>":
+                if line[61:68] == "<title>": #Comienzo titulo
                   for word in line:
                     if sacarEntre(word):
                         continue
@@ -141,7 +146,11 @@ for arch in listdir(path):
                         if sacarEspacioDoble(word):
                             continue
                         n.write(word)
-                if line[10:21] == "article:tag":
+                  n.write('| ') #Fin titulo  
+                if line[10:21] == "article:tag": #Comienzo topico
+                    topicos = 1
+                    basura = 0
+                if topicos == 1:
                   for word in line:
                     if sacarEntre(word):
                         continue
@@ -152,7 +161,9 @@ for arch in listdir(path):
                         if sacarEspacioDoble(word):
                             continue
                         t.write(word)
-                if line[17:44] == "</span></span></a></div><p>":
+                if line[10:25] == "article:section": #Fin topico
+                    topicos = 0
+                if line[17:44] == "</span></span></a></div><p>": #Comienzo cuerpo
                     cuerpo = 1
                 if cuerpo == 1:
                   contador = contador + 1
@@ -167,13 +178,13 @@ for arch in listdir(path):
                             if sacarEspacioDoble(word):
                                 continue
                             n.write(word)
-                if line[6:28] == "http://20.theclinic.cl":
+                if line[6:28] == "http://20.theclinic.cl": #Fin cuerpo
                     cuerpo = 0
             f.close
             n.write('\n')
             t.write('\n')    
     except:
-        print("# ERROR en theclinic#")  
+        print("# ERROR en theclinic# "+ruta) 
 n.close
 
 n = open ("Nelmostrador.txt", 'w')
@@ -186,7 +197,7 @@ for arch in listdir(path):
             f = open (ruta, 'r')
             reset()
             for line in f:
-                if line[16:23] == "<title>":
+                if line[16:23] == "<title>": #Comienzo titulo
                   for word in line:
                     if sacarEntre(word):
                         continue
@@ -195,7 +206,8 @@ for arch in listdir(path):
                             n.write(' ')
                             continue
                         n.write(word)
-                if line[132:145] == "tags-noticias":
+                  n.write('| ') #Fin titulo  
+                if line[132:145] == "tags-noticias": #Comienzo topico
                     topicos = 1
                 if topicos == 1:
                   for word in line:
@@ -206,9 +218,9 @@ for arch in listdir(path):
                             t.write(' ')
                             continue
                         t.write(word)
-                if line[52:83] == "</div> <!-- /.tags-noticias -->":
+                if line[52:83] == "</div> <!-- /.tags-noticias -->": #Fin topico
                     topicos = 0
-                if line[102:116] == "cuerpo-noticia":
+                if line[102:116] == "cuerpo-noticia": #Comienzo cuerpo
                     cuerpo = 4
                 if cuerpo > 1:
                     cuerpo = cuerpo - 1
@@ -222,13 +234,13 @@ for arch in listdir(path):
                             n.write(' ')
                             continue
                         n.write(word)
-                if line[52:62] == "<!--BBC-->":
+                if line[52:62] == "<!--BBC-->": #fin cuerpo
                     cuerpo = 0
             f.close
             n.write('\n')
             t.write('\n')    
     except:
-        print("# ERROR en el mostrador#")  
+        print("# ERROR en el mostrador# "+ruta) 
 n.close
 
 n = open ("Nadnradio.txt", 'w')
@@ -242,7 +254,7 @@ for arch in listdir(path):
             reset()
             for line in f:
                 contador = contador + 1
-                if contador == 5:
+                if contador == 5: # Comienzo titulo
                   for word in line:
                     if sacarEntre(word):
                         continue
@@ -251,7 +263,8 @@ for arch in listdir(path):
                             n.write(' ')
                             continue
                     n.write(word) #Titulo
-                if line[16:24] == "keywords":
+                  n.write('| ') #Fin de titulo  
+                if line[16:24] == "keywords": #topico en una linea
                   for word in line:
                     if sacarEntre(word):
                         continue
@@ -260,10 +273,10 @@ for arch in listdir(path):
                             t.write(' ')
                             continue
                         t.write(word)
-                if line[27:44] == "<!--Desarrollo-->":
+                if line[27:44] == "<!--Desarrollo-->": #Comienzo cuerpo
                     cuerpo = 1
                     continue
-                if line[27:48] == "<!--Fin Desarrollo-->":
+                if line[27:48] == "<!--Fin Desarrollo-->": #Fin cuerpo
                     cuerpo = 0
                 if cuerpo == 1:
                     for word in line:
@@ -278,6 +291,6 @@ for arch in listdir(path):
             n.write('\n')
             t.write('\n')
     except:
-        print("# ERROR en adn radio#") 
+        print("# ERROR en adn radio# "+ruta) 
 n.close
 

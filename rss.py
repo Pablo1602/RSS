@@ -111,7 +111,7 @@ print("RSS de cooperativa")
 for url in cooperativa: 
  rss = feedparser.parse(url) 
  for post in rss.entries: 
-  try: 
+  try:
     titulo = post.title[0:100]
     path = actual+"/cooperativa/"+titulo+".html " 
     if os.path.isfile(path) == False: 
@@ -127,7 +127,6 @@ if i != 0:
   f = open("estado.txt", "a") 
   f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de cooperativa\n") 
   f.close 
- 
 i=0 
 # Recorremos cada RSS para elmostrador 
 print("RSS de elmostrador") 
@@ -175,6 +174,7 @@ if i != 0:
   f.close 
  
  
+
 i=0 
 # Recorremos cada RSS para theclinic 
 print("RSS de theclinic") 
@@ -206,23 +206,25 @@ print("RSS de soychilecl")
 for url in soychilecl:
  rss = feedparser.parse(url)
  for post in rss.entries:
-  titulo = post.title[0:100]
-  path = actual+"/soychilecl/"+titulo+".html"
-  if os.path.isfile(path) == False:
-    f = open(path, 'w')
-    text = unidecode(post.summary)
-    for line in text:
-      for word in line:
-        if word == "<":
-            basura = 1
-        if word == ">":
-            basura = 0
-            continue
-        if basura == 0:
-            f.write(word)
-    f.close
-    i=i+1
-
+  try:
+    titulo = post.title[0:100]
+    path = actual+"/soychilecl/"+titulo+".html"
+    if os.path.isfile(path) == False:
+      f = open(path, 'w')
+      text = unidecode(post.summary)
+      for line in text:
+        for word in line:
+          if word == "<":
+              basura = 1
+          if word == ">":
+              basura = 0
+              continue
+          if basura == 0:
+              f.write(word)
+      f.close
+      i=i+1
+  except:
+    print("# ERROR #")
 if i != 0:
   f = open("estado.txt", "a")
   f.write(fechayhora +" - Se escribieron "+str(i)+" noticias de soychilecl\n")
