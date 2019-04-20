@@ -113,6 +113,7 @@ t = open ("Ttheclinic.txt", 'w')
 path = "/home/ubuntu/theclinic"
 print("theclinic")
 for arch in listdir(path):
+    print(arch)
     ruta = join(path, arch)
     try:
         if isfile(ruta):
@@ -173,6 +174,7 @@ t = open ("Telmostrador.txt", 'w')
 path = "/home/ubuntu/elmostrador"
 print("elmostrador")
 for arch in listdir(path):
+    print(arch)
     ruta = join(path, arch)
     try:
         if isfile(ruta):
@@ -231,6 +233,7 @@ t = open ("Tadnradio.txt", 'w')
 path = "/home/ubuntu/adnradio"
 print("adnradio")
 for arch in listdir(path):
+    print(arch)
     ruta = join(path, arch)
     try:
         if isfile(ruta):
