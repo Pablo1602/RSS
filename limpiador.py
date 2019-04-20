@@ -49,7 +49,8 @@ def reset():
     contador = 0
     espacio = 0
 
-path = actual+"/cooperativa"
+#path = actual+"/cooperativa"
+path = "/home/ubuntu/cooperativa"
 n = open ("Ncooperativa.txt", 'w')
 t = open ("Tcooperativa.txt", 'w')
 for arch in listdir(path):
@@ -107,8 +108,8 @@ n.close
 
 n = open ("Ntheclinic.txt", 'w')
 t = open ("Ttheclinic.txt", 'w')
-titulo = []
-path = actual+"/theclinic"
+#path = actual+"/theclinic"
+path = "/home/ubuntu/theclinic"
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
@@ -166,7 +167,8 @@ n.close
 
 n = open ("Nelmostrador.txt", 'w')
 t = open ("Telmostrador.txt", 'w')
-path = actual+"/elmostrador"
+#path = actual+"/elmostrador"
+path = "/home/ubuntu/elmostrador"
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
@@ -222,7 +224,8 @@ n.close
 
 n = open ("Nadnradio.txt", 'w')
 t = open ("Tadnradio.txt", 'w')
-path = actual+"/adnradio"
+#path = actual+"/adnradio"
+path = "/home/ubuntu/adnradio"
 for arch in listdir(path):
     ruta = join(path, arch)
     try:
