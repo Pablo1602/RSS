@@ -24,6 +24,9 @@ def sacarEntre(word):
         if word == "s":
             script = 1
             return 1
+        if word == "c" and script == 1:
+            script = 2
+            return 1
     if word == "/":
         script = 0
     if word == "<":
@@ -36,20 +39,6 @@ def sacarEntre(word):
 def sacarSaltoTab(word):
     if word == '\n' or word == '\t':
         return 1
-    return 0
-
-def sacarEspacioDoble(word):
-    global espacio
-    if espacio == 1:
-        if word == " ":
-            espacio = 0
-            return 1
-        else:  
-            espacio = 0
-    if word == " ":
-        espacio = 1
-    if word != " ":
-        espacio = 0
     return 0
 
 def reset():
@@ -72,7 +61,7 @@ for arch in listdir(path):
             for line in f:
                 espacio = 0
                 if line[0:7] == "<title>": #Comienzo titulo
-                  if line[7:14] == "[Video]" or line[7:14] == "[Audio]":
+                  if line[7:14] == "[Video]" or line[7:14] == "[Audio]" or line[7:14] == "[Fotos]":
                     break #Saltar video o audio
                   for word in line:
                     if sacarEntre(word):
@@ -80,10 +69,8 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             n.write(' ')
-                            continue
-                        if sacarEspacioDoble(word):
-                            continue
-                        n.write(word)
+                        else:
+                            n.write(word)
                   n.write('| ') #Fin de titulo               
                 if line[13:27] == "rotulo-topicos" or line[9:17] == "keywords": #Comienzo topico
                   topicos = 1
@@ -94,10 +81,8 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             t.write(' ')
-                            continue
-                        if sacarEspacioDoble(word):
-                            continue
-                        t.write(word)
+                        else:
+                            t.write(word)
                 if line[1:7] == "</div>" or line[8:10] == "],": #Fin topico
                   topicos = 0
                 if line[12:27] == "cuerpo-articulo" or line[9:20] == "articleBody": #Comienzo cuerpo
@@ -106,13 +91,11 @@ for arch in listdir(path):
                   for word in line:
                     if sacarEntre(word):
                         continue
-                    if basura == 0 and script == 0:
+                    if basura == 0 and script != 2:
                         if sacarSaltoTab(word):
                             n.write(' ')
-                            continue
-                        if sacarEspacioDoble(word):
-                            continue
-                        n.write(word)
+                        else:
+                            n.write(word)
                 if line[10:16] == "prompt" or line[9:20] == "articleBody": #Fin cuerpo
                   cuerpo = 0
             f.close
@@ -142,10 +125,8 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             n.write(' ')
-                            continue
-                        if sacarEspacioDoble(word):
-                            continue
-                        n.write(word)
+                        else:
+                            n.write(word)
                   n.write('| ') #Fin titulo  
                 if line[10:21] == "article:tag": #Comienzo topico
                     topicos = 1
@@ -157,13 +138,11 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             t.write(' ')
-                            continue
-                        if sacarEspacioDoble(word):
-                            continue
-                        t.write(word)
+                        else:
+                            t.write(word)
                 if line[10:25] == "article:section": #Fin topico
                     topicos = 0
-                if line[17:44] == "</span></span></a></div><p>": #Comienzo cuerpo
+                if line[17:44] == "</span></span></a></div><p>" or line [7:18] == "articleBody": #Comienzo cuerpo
                     cuerpo = 1
                 if cuerpo == 1:
                   contador = contador + 1
@@ -171,18 +150,16 @@ for arch in listdir(path):
                       for word in line:
                         if sacarEntre(word):
                             continue
-                        if basura == 0 and script == 0:
+                        if basura == 0 and script != 2:
                             if sacarSaltoTab(word):
                                 n.write(' ')
-                                continue
-                            if sacarEspacioDoble(word):
-                                continue
-                            n.write(word)
+                            else:
+                                n.write(word)
                 if line[6:28] == "http://20.theclinic.cl": #Fin cuerpo
                     cuerpo = 0
-            f.close
             n.write('\n')
             t.write('\n')    
+            f.close
     except:
         print("# ERROR en theclinic# "+ruta) 
 n.close
@@ -204,8 +181,8 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             n.write(' ')
-                            continue
-                        n.write(word)
+                        else:
+                            n.write(word)
                   n.write('| ') #Fin titulo  
                 if line[132:145] == "tags-noticias": #Comienzo topico
                     topicos = 1
@@ -213,11 +190,11 @@ for arch in listdir(path):
                   for word in line:
                     if sacarEntre(word):
                         continue
-                    if basura == 0 and script == 0:
+                    if basura == 0 and script != 2:
                         if sacarSaltoTab(word):
                             t.write(' ')
-                            continue
-                        t.write(word)
+                        else:
+                            t.write(word)
                 if line[52:83] == "</div> <!-- /.tags-noticias -->": #Fin topico
                     topicos = 0
                 if line[102:116] == "cuerpo-noticia": #Comienzo cuerpo
@@ -229,11 +206,11 @@ for arch in listdir(path):
                   for word in line:
                     if sacarEntre(word):
                         continue
-                    if basura == 0 and script == 0:
+                    if basura == 0 and script != 2:
                         if sacarSaltoTab(word):
                             n.write(' ')
-                            continue
-                        n.write(word)
+                        else:
+                            n.write(word)
                 if line[52:62] == "<!--BBC-->": #fin cuerpo
                     cuerpo = 0
             f.close
@@ -261,8 +238,8 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             n.write(' ')
-                            continue
-                    n.write(word) #Titulo
+                        else:
+                            n.write(word) #Titulo
                   n.write('| ') #Fin de titulo  
                 if line[16:24] == "keywords": #topico en una linea
                   for word in line:
@@ -271,8 +248,8 @@ for arch in listdir(path):
                     if basura == 0:
                         if sacarSaltoTab(word):
                             t.write(' ')
-                            continue
-                        t.write(word)
+                        else:
+                            t.write(word)
                 if line[27:44] == "<!--Desarrollo-->": #Comienzo cuerpo
                     cuerpo = 1
                     continue
@@ -285,8 +262,8 @@ for arch in listdir(path):
                         if basura == 0:
                             if sacarSaltoTab(word):
                                 n.write(' ')
-                                continue
-                            n.write(word)
+                            else:
+                                n.write(word)
             f.close
             n.write('\n')
             t.write('\n')
